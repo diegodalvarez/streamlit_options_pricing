@@ -138,7 +138,9 @@ if find_options == "ticker lookup":
             
 if find_options == "manual":
     
-    expiration = st.date_input("Expiration", today)
+    tomorrow = today + dt.timedelta(days=1)
+    today = today.date()
+    expiration = st.date_input("Expiration", tomorrow)
     
     strike = st.number_input("Strike")
     spot = st.number_input("Spot")
@@ -159,7 +161,10 @@ if find_options == "manual":
             number = (i+1) * start
             simulations.append(number)
             
+        days_to_expiration = (expiration - today).days    
         simulation_num = st.selectbox('select number of simulations', simulations)
+        st.write("days to expiration:", days_to_expiration)
+        
+        options = options_calculation(days_to_expiration, strike, spot, vol, risk_free)
         value = options.MCcalculation(simulation_num)
         st.write(value)
-
