@@ -144,3 +144,22 @@ if find_options == "manual":
     spot = st.number_input("Spot")
     vol = st.number_input("vol")
     risk_free = st.number_input("risk free rate")
+    
+    calculation_method = st.selectbox("select a calculation method", calculations_method)
+    
+    if calculation_method == "monte carlo":
+        
+        start = 100000
+        simulations = []
+        simulations.append(start)
+        max_num = 10
+        
+        for i in range(max_num):
+            
+            number = (i+1) * start
+            simulations.append(number)
+            
+        simulation_num = st.selectbox('select number of simulations', simulations)
+        value = options.MCcalculation(simulation_num)
+        st.write(value)
+
