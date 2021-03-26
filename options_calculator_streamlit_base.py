@@ -4,7 +4,7 @@ import streamlit as st
 
 from streamlit_options_calculator import *
 
-calculations_method = ['monte carlo']
+calculations_method = ['monte carlo', 'Black Scholes']
 
 st.header("Get Options Chain")
 find_options = st.sidebar.selectbox("Select method", ("ticker lookup", "manual"))
@@ -66,8 +66,8 @@ if find_options == "ticker lookup":
             st.subheader("double check information")
             st.write("days to expiration:", days_to_expiration)
             st.write("strike:", strike)
-            st.write("spot:", spot)
-            st.write("vol:", vol)
+            st.write("spot:", round(spot,2))
+            st.write("vol:", round(vol,2))
             
             risk_free = st.number_input("risk free rate")
             options = options_calculation(days_to_expiration, strike, spot, vol, risk_free)
@@ -89,6 +89,11 @@ if find_options == "ticker lookup":
                 simulation_num = st.selectbox('select number of simulations', simulations)
                 value = options.MCcalculation(simulation_num)
                 st.write(value)
+                
+            if calculation_method == "Black Scholes":
+                
+                value = options.bsm_call_value()
+                st.write(round(value,2))
                 
         
         if status_radio == "Put":
@@ -154,6 +159,8 @@ if find_options == "manual":
     risk_free = st.number_input("risk free rate")
     
     calculation_method = st.selectbox("select a calculation method", calculations_method)
+    days_to_expiration = (expiration - today).days
+    options = options_calculation(days_to_expiration, strike, spot, vol, risk_free)
     
     if calculation_method == "monte carlo":
         
@@ -167,10 +174,17 @@ if find_options == "manual":
             number = (i+1) * start
             simulations.append(number)
             
-        days_to_expiration = (expiration - today).days    
         simulation_num = st.selectbox('select number of simulations', simulations)
         st.write("days to expiration:", days_to_expiration)
         
-        options = options_calculation(days_to_expiration, strike, spot, vol, risk_free)
         value = options.MCcalculation(simulation_num)
         st.write(value)
+        
+    if calculation_method == "Black Scholes":
+        
+        status_radio = st.radio('Click run when ready.', ('stop', 'run'))
+        
+        if status_radio == "run":
+        
+            value = options.bsm_call_value()
+            st.write(round(value,2))
