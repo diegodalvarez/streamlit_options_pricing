@@ -2,6 +2,8 @@ import math
 import random 
 import numpy as np
 
+from scipy import stats
+
 class options_calculation():
     
     def __init__(self, expiry, strike, spot, vol, r):
@@ -43,4 +45,15 @@ class options_calculation():
         
         return round(self.mean,2)
     
+    def bsm_call_value(self):
+        
+        S0 = float(self.spot)
+        
+        d1 = (math.log(S0 / self.strike) + (self.r + 0.5 * self.vol ** 2) * self.expiry) / (self.vol / math.sqrt(self.expiry))
+        d2 = (math.log(S0 / self.strike) + (self.r - 0.5 * self.vol ** 2) * self.expiry) / (self.vol / math.sqrt(self.expiry))
+        
+        value = (S0 * stats.norm.cdf(d1, 0.0, 1.0) - self.strike * math.exp(-self.r * self.expiry) * stats.norm.cdf(d2, 0.0, 1.0))
+        
+        return value
+        
         
