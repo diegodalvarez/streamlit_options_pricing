@@ -93,6 +93,9 @@ if find_options == "ticker lookup":
         
         if status_radio == "Put":
             
+            st.subheader("Put Options calculation in progress")
+            
+            '''
             strikes = calls['strike'].tolist()
             strike = st.selectbox("select a strike price", strikes)
             counter = 0
@@ -135,8 +138,11 @@ if find_options == "ticker lookup":
                 simulation_num = st.selectbox('select number of simulations', simulations)
                 value = options.MCcalculation(simulation_num)
                 st.write(value)
+            '''
             
 if find_options == "manual":
+    
+    st.subheader("for call options")
     
     tomorrow = today + dt.timedelta(days=1)
     today = today.date()
