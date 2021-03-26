@@ -92,7 +92,7 @@ if find_options == "ticker lookup":
                 
             if calculation_method == "Black Scholes":
                 
-                value = options.bsm_call_value()
+                value = options.BSM_call_value()
                 st.write(round(value,2))
                 
         
