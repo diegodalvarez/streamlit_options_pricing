@@ -186,5 +186,5 @@ if find_options == "manual":
         
         if status_radio == "run":
         
-            value = options.bsm_call_value()
+            value = options.BSM_call_value()
             st.write(round(value,2))
