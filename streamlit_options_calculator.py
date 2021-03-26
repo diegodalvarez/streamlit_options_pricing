@@ -45,7 +45,7 @@ class options_calculation():
         
         return round(self.mean,2)
     
-    def bsm_call_value(self):
+    def BSM_call_value(self):
         
         S0 = float(self.spot)
         
